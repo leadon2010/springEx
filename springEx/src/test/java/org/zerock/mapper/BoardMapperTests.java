@@ -46,4 +46,28 @@ public class BoardMapperTests {
 		log.info(board);
 
 	}
+
+	@Test
+	public void testRead() {
+		BoardVO board = mapper.read(5L);
+		log.info(board);
+	}
+
+	@Test
+	public void testDelete() {
+		log.info("DELETE COUNT: " + mapper.delete(5L));
+
+	}
+
+	@Test
+	public void testUpdate() {
+		BoardVO vo = new BoardVO();
+		vo.setBno(3L);
+		vo.setTitle("수정된 제목");
+		vo.setContent("수정된 내용");
+		vo.setWriter("user01");
+
+		int count = mapper.update(vo);
+		log.info("UPDATE COUNT: " + count);
+	}
 }

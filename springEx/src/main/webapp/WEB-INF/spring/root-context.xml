@@ -16,24 +16,20 @@
 			value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
 		<property name="jdbcUrl"
 			value="jdbc:log4jdbc:oracle:thin:@localhost:1521:xe"></property>
-		<property name="username" value="spring"></property>
-		<property name="password" value="spring"></property>
+		<property name="username" value="book_ex"></property>
+		<property name="password" value="book_ex"></property>
 	</bean>
 
-	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource"
-		destroy-method="close">
+	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
 		<constructor-arg ref="hikariConfig"></constructor-arg>
 	</bean>
 
-	<bean id="sqlSessionFactory"
-		class="org.mybatis.spring.SqlSessionFactoryBean">
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"></property>
 	</bean>
 
-	<mybatis-spring:scan
-		base-package="org.zerock.mapper" />
+	<mybatis-spring:scan base-package="org.zerock.mapper" />
 
-	<context:component-scan
-		base-package="org.zerock.sample" />
+	<context:component-scan base-package="org.zerock.service" />
 
 </beans>
