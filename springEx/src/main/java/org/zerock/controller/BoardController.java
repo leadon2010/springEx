@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.zerock.domain.BoardVO;
 import org.zerock.domain.Criteria;
+import org.zerock.domain.PageDTO;
 import org.zerock.service.BoardService;
 
 import lombok.AllArgsConstructor;
@@ -26,14 +27,20 @@ public class BoardController {
 	public void list(Criteria cri, Model model) {
 		log.info("list");
 		model.addAttribute("list", service.getList(cri));
+		model.addAttribute("pageMaker", new PageDTO(cri, 123));
 	}
 
 	@PostMapping("/register")
 	public String register(BoardVO board, RedirectAttributes rttr) {
 		log.info("register: " + board);
-//		service.register(board);
+		service.register(board);
 		rttr.addFlashAttribute("result", board.getBno());
 		return "redirect:/board/list";
+	}
+
+	@GetMapping("/registerForm")
+	public void registerForm() {
+
 	}
 
 	@GetMapping("/get")
