@@ -5,49 +5,12 @@
 
 <%@include file="../includes/header.jsp"%>
 
-<script>
-	$(document).ready(
-		function () {
-			var result = '<c:out value="${result }" />';
-			checkModal(result);
-
-			history.replaceState({}, null, null);
-
-			function checkModal(result) {
-				if (result === '' || history.state) {
-					return;
-				}
-				if (parseInt(result) > 0) {
-					$('.modal-body').html(
-						'게시글: ' + parseInt(result) + "번이 등록되었습니다!");
-				}
-				$('#myModal').modal('show');
-			} // end of checkModal
-
-			$('#regBtn').on('click', function () {
-				console.log(self);
-				self.location = 'registerForm';
-			})
-
-			var actionForm = $('#actionForm');
-			$('.pagenate_button a').on('click', function (e) {
-				e.preventDefault();
-				actionForm.find('input[name="pageNum"]').val($(this).attr('href'));
-				actionForm.submit();
-			})
-		});
-</script>
 <div class="panel-heading">Board List page
 	<button id="regBtn" type="button" class="btn btn-xs pull-right">Register New Board</button>
 </div>
 <a href="registerForm">등록화면</a>
 <!-- Page Heading -->
 <h1 class="h3 mb-2 text-gray-800">Tables</h1>
-<p class="mb-4">
-	DataTables is a third party plugin that is used to generate the demo
-	table below. For more information about DataTables, please visit the
-	<a target="_blank" href="https://datatables.net">official DataTablesz documentation</a>.
-</p>
 
 <!-- DataTales Example -->
 <div class="card shadow mb-4">
@@ -70,12 +33,12 @@
 					<c:forEach var="board" items="${list }">
 						<tr>
 							<td>
-								<a href='get?bno=<c:out value="${board.bno }" />'>
+								<a class="move" href='<c:out value="${board.bno }" />'>
 									<c:out value="${board.bno }"></c:out>
 								</a>
 							</td>
 							<td>
-								<a href='get?bno=<c:out value="${board.bno }" />'>
+								<a class="move" href='<c:out value="${board.bno }" />'>
 									<c:out value="${board.title }"></c:out>
 								</a>
 							</td>
@@ -117,15 +80,15 @@
 <div class="pull-right">
 	<ul class="pagination">
 		<c:if test="${pageMaker.prev }">
-			<li class="paginate_button previous"><a href="${pageMaker.startPage - 1 }">Previous</a></li>
+			<li class="pagenate_button previous"><a href="${pageMaker.startPage - 1 }">Previous</a></li>
 		</c:if>
 		<c:forEach var="num" begin="${pageMaker.startPage }" end="${pageMaker.endPage }">
-			<li class="pagenate_button page-item ${pageMaker.cri.pageNum == num ? " active" : "" }">
+			<li class="pagenate_button page-item ${pageMaker.cri.pageNum == num ? 'active' : ''}">
 				<a class='page-link' href="${num }">${num }</a>
 			</li>
 		</c:forEach>
 		<c:if test="${pageMaker.next }">
-			<li class="paginate_button next"><a href="${pageMaker.endPage + 1 }">Next</a></li>
+			<li class="pagenate_button next"><a href="${pageMaker.endPage + 1 }">Next</a></li>
 		</c:if>
 	</ul>
 </div>
@@ -134,5 +97,45 @@
 	<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum }'>
 	<input type='hidden' name='amount' value='${pageMaker.cri.amount }'>
 </form>
+
+<script>
+	var result = '<c:out value="${result }" />';
+	checkModal(result);
+
+	history.replaceState({}, null, null);
+
+	function checkModal(result) {
+		if (result === '' || history.state) {
+			return;
+		}
+		if (parseInt(result) > 0) {
+			$('.modal-body').html('게시글: ' + parseInt(result) + "번이 등록되었습니다!");
+		}
+		$('#myModal').modal('show');
+	} // end of checkModal
+
+	// 등록버튼.
+	$('#regBtn').on('click', function () {
+		console.log(self);
+		self.location = 'registerForm';
+	})
+
+	// 페이지 링크.
+	var actionForm = $('#actionForm');
+	$('.pagenate_button a').on('click', function (e) {
+		e.preventDefault();
+		actionForm.find('input[name="pageNum"]').val($(this).attr('href'));
+		actionForm.submit();
+	})
+
+	// 글번호 조회.
+	$('.move').on('click', function (e) {
+		e.preventDefault();
+
+		actionForm.append('<input type="hidden" name="bno" value="' + $(this).attr('href') + '" >');
+		actionForm.attr('action', 'get');
+		actionForm.submit();
+	})
+</script>
 
 <%@include file="../includes/footer.jsp"%>

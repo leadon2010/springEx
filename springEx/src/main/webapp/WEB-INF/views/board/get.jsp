@@ -3,16 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@include file="../includes/header.jsp" %>
 
-<script>
-	$(document).ready(function() {
-		var operForm = $('#operForm');
-		$('button').on('click', function() {
-			var bno = $('input[name="bno"]').val();
-			location.href = 'modify?bno='+bno;
-		})
-	});
-</script>
-
 <div class="row">
     <div class="col-lg-12">
         <h1 class="page-header">Board Read</h1>
@@ -46,15 +36,34 @@
                         readonly='readonly'>
                 </div>
                 <button data-oper='modify' class='btn btn-default'>Modify</button>
-                <button class="btn btn-info" data-oper='list' onclick='location.href="list"'>List</button>
-                
-                <form id='openForm' action='modify' method='get'>
-                	<input type='hidden' id='bno' name='bno' value='<c:out value="${board.bno }" />'>
+                <button data-oper='list' class="btn btn-info">List</button>
+
+                <form id='operForm' action='modify' method='get'>
+                    <input type='hidden' id='bno' name='bno' value='<c:out value="${board.bno }" />'>
+                    <input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum }" />'>
+                    <input type='hidden' name='amount' value='<c:out value="${cri.amount }" />'>
                 </form>
-                
+
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    var operForm = $('#operForm');
+
+    $('button[data-oper="modify"]').on('click', function (e) {
+        console.log('modify')
+        operForm.attr('action', 'modify');
+        operForm.submit();
+    })
+
+    $('button[data-oper="list"]').on('click', function (e) {
+        console.log('list')
+        operForm.find('#bno').remove();
+        operForm.attr('action', 'list');
+        operForm.submit();
+    })
+</script>
 
 <%@ include file="../includes/footer.jsp" %>

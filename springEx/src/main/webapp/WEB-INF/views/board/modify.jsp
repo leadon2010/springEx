@@ -5,23 +5,6 @@
 
 <%@include file="../includes/header.jsp" %>
 
-<script>
-    $(document).ready(function () {
-        var formObj = $('form');
-        $('button').on('click', function (e) {
-            e.preventDefault();
-            var operation = $(this).data('oper');
-
-            if (operation == 'remove') {
-                formObj.attr('action', 'remove');
-            } else if (operation == 'list') {
-                self.location = 'list';
-            }
-            formObj.submit();
-        })
-    });
-</script>
-
 <div class="row">
     <div class="col-lg-12">
         <div class="panel panel-default">
@@ -29,6 +12,8 @@
             <div class="panel-heading">Board Modify Page</div>
             <div class="panel-body">
                 <form role="form" action="modify" method="post">
+                    <input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum }" />'>
+                    <input type='hidden' name='amount' value='<c:out value="${cri.amount }" />'>
                     <div class="form-group">
                         <label for="">Bno</label>
                         <input type="text" class="form-control" name='bno' value='<c:out value="${board.bno}" />'
@@ -67,5 +52,28 @@
         </div>
     </div>
 </div>
+
+<script>
+    var formObj = $('form');
+    $('button').on('click', function (e) {
+        e.preventDefault();
+        var operation = $(this).data('oper');
+
+        if (operation == 'remove') {
+            formObj.attr('action', 'remove');
+
+        } else if (operation == 'list') {
+            //self.location = 'list';
+            formObj.attr('action', 'list').attr('method', 'get');
+            var pageNumTag = $('input[name="pageNum"]').clone();
+            var amountTag = $('input[name="amount"]').clone();
+
+            formObj.empty();
+            formObj.append(pageNumTag);
+            formObj.append(amountTag);
+        }
+        formObj.submit();
+    })
+</script>
 
 <%@include file="../includes/footer.jsp" %>
