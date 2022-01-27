@@ -11,7 +11,7 @@ public class PageDTO {
 	private int endPage;
 	private boolean prev, next;
 	private int total;
-	private Criteria cri;
+	private Criteria cri; // 페이지 넘버, 페이지 당 보여줄 건수 
 
 	public PageDTO(Criteria cri, int total) {
 		this.cri = cri;

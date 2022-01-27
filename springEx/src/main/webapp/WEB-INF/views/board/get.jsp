@@ -6,7 +6,10 @@
 <script>
 	$(document).ready(function() {
 		var operForm = $('#operForm');
-		$('button')
+		$('button').on('click', function() {
+			var bno = $('input[name="bno"]').val();
+			location.href = 'modify?bno='+bno;
+		})
 	});
 </script>
 
