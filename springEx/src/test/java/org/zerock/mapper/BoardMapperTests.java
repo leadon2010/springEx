@@ -20,59 +20,59 @@ public class BoardMapperTests {
 	@Setter(onMethod_ = { @Autowired })
 	private BoardMapper mapper;
 
-	@Test
+//	@Test
 	public void testGetList() {
 		mapper.getList().forEach(board -> log.info(board));
 	}
-	
-	@Test
+
+//	@Test
 	public void testPaging() {
 		Criteria cri = new Criteria();
 		cri.setPageNum(2);
 		cri.setAmount(10);
-		
+
 		List<BoardVO> list = mapper.getListWithPaging(cri);
 		list.forEach(board -> log.info(board));
 	}
 
-	@Test
+//	@Test
 	public void testInsert() {
 		BoardVO board = new BoardVO();
 		board.setTitle("새로 작성하는 글");
 		board.setContent("새로 작성하는 글");
 		board.setWriter("newbie");
 
-//		mapper.insert(board);
+		mapper.insert(board);
 
 		log.info(board);
 	}
 
-	@Test
+//	@Test
 	public void testInsertSelectKey() {
 		BoardVO board = new BoardVO();
 		board.setTitle("새로 작성하는 글 select key");
 		board.setContent("새로 작성하는 글 select key");
 		board.setWriter("newbie");
 
-//		mapper.insertSelectKey(board);
+		mapper.insertSelectKey(board);
 
 		log.info(board);
 
 	}
 
-	@Test
+//	@Test
 	public void testRead() {
 		BoardVO board = mapper.read(5L);
 		log.info(board);
 	}
 
-	@Test
+//	@Test
 	public void testDelete() {
 		log.info("DELETE COUNT: " + mapper.delete(5L));
 
 	}
 
-	@Test
+//	@Test
 	public void testUpdate() {
 		BoardVO vo = new BoardVO();
 		vo.setBno(3L);
@@ -82,5 +82,15 @@ public class BoardMapperTests {
 
 		int count = mapper.update(vo);
 		log.info("UPDATE COUNT: " + count);
+	}
+
+	@Test
+	public void testSearch() {
+		Criteria cri = new Criteria();
+		cri.setKeyword("테스트");
+		cri.setType("TWC");
+
+		List<BoardVO> list = mapper.getListWithPaging(cri);
+		list.forEach(board -> log.info(board));
 	}
 }
