@@ -27,15 +27,15 @@ public class BoardController {
 	@GetMapping("/list")
 	public void list(Criteria cri, Model model) {
 		log.info("list");
-		
+
 		model.addAttribute("list", service.getList(cri));
 //		model.addAttribute("pageMaker", new PageDTO(cri, 123));
-		
+
 		int total = service.getTotal(cri);
 		log.info("total: " + total);
-		
+
 		model.addAttribute("pageMaker", new PageDTO(cri, total));
-		
+
 	}
 
 	@PostMapping("/register")
@@ -57,6 +57,7 @@ public class BoardController {
 		model.addAttribute("board", service.get(bno));
 	}
 
+	
 	@PostMapping("/modify")
 	public String modify(BoardVO board, @ModelAttribute("cri") Criteria cri, RedirectAttributes rttr) {
 		log.info("/modify: " + board);
